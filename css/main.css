@@ -286,7 +286,7 @@ padding: 10px;
         
         .banner {
             height: 650px;
-            background-image: url('https://blog-static.kish.top/sysimg/index.jpeg');
+            background-image: url('index.jpeg');
             background-size: cover;
             background-position: center;
             position: relative;
