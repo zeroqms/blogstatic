@@ -487,6 +487,7 @@ padding: 10px;
         .post-excerpt {
             color: var(--text-color);
             line-height: 1.6;
+            margin-top: 5px;
         }
         
         .read-more {
