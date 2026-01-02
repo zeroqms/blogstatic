@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroQms Blog</title>
+    <meta name="description" content="A personal technical blog featuring tutorials and hands-on experience on server deployment, intranet penetration (NAT traversal), static site setup, CDN optimization, and containerized deployment. Dedicated to cloud-native, serverless architecture, and full-stack development. By ZeroQms.">
+    <meta name="author" content="ZeroQms">
+    <meta name="keywords" content="Personal Tech Blog, Front-End Tutorials, JavaScript, Cloud-Native, Server Deployment, Static Sites, Containerization, Serverless Architecture, CDN, Intranet Penetration, ZeroQms, Anime Blog">
+    <meta property="og:site_name" content="Koishiell Blog">
+    <meta property="og:url" content="https://blog.kish.top/"><meta property="og:title" content="ZeroQms's Blog">
+    <meta property="og:description" content="A personal technical blog featuring tutorials and hands-on experience on server deployment, intranet penetration (NAT traversal), static site setup, CDN optimization, and containerized deployment. Dedicated to cloud-native, serverless architecture, and full-stack development. By ZeroQms.">
+    <meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blog.kish.top/"><meta name="twitter:title" content="Koishiell Blog - ZeroQms's Blog">
+    <meta name="twitter:description" content="A personal technical blog featuring tutorials and hands-on experience on server deployment, intranet penetration (NAT traversal), static site setup, CDN optimization, and containerized deployment. Dedicated to cloud-native, serverless architecture, and full-stack development. By ZeroQms.">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico"/>
+    <link rel="stylesheet" href="https://www.lzbbs.top/bbs/static/css/6.0.0/all.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href="https://www.lzbbs.top/bbs/static/css/fonts/1/css2.css" rel="stylesheet">
+    <script src="https://www.lzbbs.top/bbs/static/js/marked.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://q1.qlogo.cn/g?b=qq&nk=64072478&s=640" alt="Avatar">
+            <span>Koishi-Blog</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/" class="active"><i class="fa fa-home" style="margin-right: 12px;"></i>Home</a></li>
+            <li><a href="#" id="animeLink"><i class="fa fa-film" style="margin-right: 12px;"></i>Follow series</a></li>
+        </ul>
+        <div class="nav-right">
+            <div id="auth-container">
+            </div>
+            
+            <div class="nav-dropdown search-dropdown">
+                <button class="nav-dropdown-toggle search-toggle" id="searchToggle">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="dropdown-menu search-menu">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search posts..." autocomplete="off">
+                        <div class="search-results" id="searchResults">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-dropdown tools-dropdown">
+                <button class="nav-dropdown-toggle tools-toggle" id="toolsToggle">
+                    <i class="fas fa-tools"></i>
+                </button>
+                <div class="dropdown-menu tools-menu">
+                    <a href="https://www.kish.top/tools/maths.html" class="dropdown-item" target="_blank">
+                        <i class="fas fa-calculator"></i>
+                        <span>calculator</span>
+                    </a>
+                    <a href="#" class="dropdown-item" onclick="alert('The tool is developed...')">
+                        <i class="fas fa-code"></i>
+                        <span>Code Editor</span>
+                    </a>
+                    <a href="#" class="dropdown-item" onclick="alert('The tool is developed...')">
+                        <i class="fas fa-palette"></i>
+                        <span>Choose a Theme Color</span>
+                    </a>
+                    <a href="#" class="dropdown-item" onclick="alert('The tool is developed...')">
+                        <i class="fas fa-image"></i>
+                        <span>Compress the images</span>
+                    </a>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="banner">
+        <div class="banner-content">
+            <h1 class="h1m">Hello World!</h1>
+            <p class="x">Powered by OnlyJS</p>
+        </div>
+    </section>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://q1.qlogo.cn/g?b=qq&nk=64072478&s=640" alt="头像">
+                    </div>
+                    <h2 class="profile-name">ZeroQms</h2>
+                    <div class="profile-line"></div>
+                    <p class="profile-bio">I'm a developer and anime lover who enjoys exploring new technologies.</p>
+                </div>
+                <div class="social-buttons">
+                    <a href="https://space.bilibili.com/1452269445/" class="social-btn">
+                        <i class="fab fa-bilibili"></i>
+                    </a>
+                    <a href="https://github.com/zeroqms" class="social-btn">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="profile-card announcement">
+                <h3 class="section-title">Notice</h3>
+                <div class="announcement-content">
+                    <p>This blog is actively maintained and updated. Your feedback and suggestions are always welcome.</p>
+                    <p>I'm currently picking up some frontend languages,and I will rewrite many pages for the blog.</p>
+                </div>
+            </div>
+            
+            <div class="profile-card tags">
+                <h3 class="section-title">Tags</h3>
+                <div class="tag-list">
+                    <span class="tag">Develop</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Anime</span>
+                    <span class="tag">Game</span>
+                    <span class="tag">Movie</span>
+                </div>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="post-list" id="post-list">
+            </div>
+        </main>
+    </div>
+    
+    <div class="fot">
+        <p>©<text id="copyright-time">2026</text> <b>ZeroQms</b>. All posts on this blog are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" style="text-decoration: none;color: var(--text-color);font-weight: 600;">CC BY-NC-SA 4.0</a> license.</p>
+        <p>Powered by <img src="/images/supabase.svg" style="
+    width: 12px;
+    margin-left: 5px;
+    margin-right: 5px;
+"><a href="https://supabase.com/" target="_blank" style="text-decoration: none;color: var(--text-color);font-weight: 600;">Supabase</a> and <img src="/images/tencentcloud.svg" style="
+    width: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+"><a href="https://cloud.tencent.com/" target="_blank" style="text-decoration: none;color: var(--text-color);font-weight: 600;">Tencent Cloud</a></p>
+    </div>
+
+    <div class="modal anime-modal" id="animeModal">
+        <div class="modal-content anime-modal-content">
+            <div class="modal-header">
+                <h2>My Follow series</h2>
+                <button class="close-modal close-anime-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>The list of my favourite anime</p>
+                
+                <div class="anime-grid" id="animeGrid">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/en-main.js"></script>
+</body>
+</html>
