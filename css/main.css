@@ -996,7 +996,7 @@ font-size: 40px;
 .nav-dropdown-toggle {
     background: none;
     border: none;
-    color: var(--bg-color);
+    color: var(--text-color);
     font-size: 1rem;
     cursor: pointer;
     border-radius: 50%;
@@ -1016,7 +1016,7 @@ font-size: 40px;
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--card-bg);
+    background: var(--bg-color);
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     min-width: 280px;
