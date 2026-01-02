@@ -27,13 +27,12 @@
         </div>
         <ul class="nav-links">
             <li><a href="/" class="active"><i class="fa fa-home" style="margin-right: 12px;"></i>首页</a></li>
-            <li><a href="#" id="animeLink"><i class="fa fa-film" style="margin-right: 12px;"></i>追番</a></li>
+            <li><a id="animeLink"><i class="fa fa-film" style="margin-right: 12px;"></i>追番</a></li>
         </ul>
         <div class="nav-right">
             <div id="auth-container">
             </div>
             
-            <!-- 搜索下拉菜单 -->
             <div class="nav-dropdown search-dropdown">
                 <button class="nav-dropdown-toggle search-toggle" id="searchToggle">
                     <i class="fas fa-search"></i>
@@ -42,13 +41,11 @@
                     <div class="search-box">
                         <input type="text" id="searchInput" placeholder="搜索文章..." autocomplete="off">
                         <div class="search-results" id="searchResults">
-                            <!-- 搜索结果将在这里动态生成 -->
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 工具下拉菜单 -->
             <div class="nav-dropdown tools-dropdown">
                 <button class="nav-dropdown-toggle tools-toggle" id="toolsToggle">
                     <i class="fas fa-tools"></i>
@@ -58,10 +55,7 @@
                         <i class="fas fa-calculator"></i>
                         <span>计算器</span>
                     </a>
-                    <a href="#" class="dropdown-item" onclick="alert('更多工具开发中...')">
-                        <i class="fas fa-code"></i>
-                        <span>代码编辑器</span>
-                    </a>
+<a href="/en" class="dropdown-item"><i class="fas fa-code"></i><span style="display: flex;gap: 10px;"><text style="display: flex;align-items: center;">英文版</text><div class="tag">Beta</div></span></a>
                     <a href="#" class="dropdown-item" onclick="alert('更多工具开发中...')">
                         <i class="fas fa-palette"></i>
                         <span>配色工具</span>
