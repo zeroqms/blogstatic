@@ -1425,9 +1425,10 @@ font-size: 40px;
 }
 .post-meta {
     display: flex;
-    gap: 15px;
-    font-size: 0.7rem;
+    gap: 5px;
+    font-size: 0.5rem;
     margin-bottom: 0px;
+    flex-wrap: wrap;
 }
 .post-excerpt {
     font-size: 11px;
@@ -1585,6 +1586,10 @@ font-size: 0.9rem;
     font-size: 0.63rem;
 }
 .post-detail-title {
-font-size: 30px;
+font-size: 25px;
+}
+.back-to-list-btn {
+    padding: 8px 15px;
+    font-size: 10px;
 }
 }
