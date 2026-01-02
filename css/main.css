@@ -979,7 +979,249 @@ font-size: 40px;
     padding: 15px;
     margin: 0;
 }
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+.nav-dropdown-toggle {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.nav-dropdown-toggle:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
+}
+
+.nav-dropdown.active .nav-dropdown-toggle {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    min-width: 280px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: none;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(5px);
+    visibility: visible;
+}
+
+/* 搜索下拉菜单 */
+.search-dropdown .dropdown-menu {
+    min-width: 320px;
+    padding: 20px;
+}
+
+.search-box {
+    position: relative;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+
+.search-results {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+}
+
+.search-result-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--hover-color);
+    transform: translateX(5px);
+}
+
+.search-result-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.search-result-excerpt {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.search-result-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.search-result-tags {
+    background: var(--accent-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.search-result-item.empty,
+.search-result-item.error {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--text-secondary);
+    cursor: default;
+}
+
+.search-result-item.empty:hover,
+.search-result-item.error:hover {
+    background: var(--bg-color);
+    transform: none;
+}
+
+/* 工具下拉菜单 */
+.tools-dropdown .dropdown-menu {
+    padding: 8px 0;
+    min-width: 200px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    gap: 12px;
+}
+
+.dropdown-item:hover {
+    background-color: var(--hover-color);
+    padding-left: 25px;
+}
+
+.dropdown-item i {
+    width: 20px;
+    text-align: center;
+    color: var(--accent-color);
+}
+
+.dropdown-item span {
+    font-size: 14px;
+}
+
+/* 搜索关键词高亮 */
+mark {
+    background-color: rgba(255, 235, 59, 0.3);
+    color: inherit;
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+.search-highlight {
+    background-color: rgba(255, 235, 59, 0.5);
+    animation: highlight-pulse 2s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+    0%, 100% {
+        background-color: rgba(255, 235, 59, 0.3);
+    }
+    50% {
+        background-color: rgba(255, 235, 59, 0.7);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .nav-dropdown-toggle {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+    }
+    
+    .search-dropdown .dropdown-menu {
+        position: fixed;
+        top: 70px;
+        left: 10px;
+        right: 10px;
+        min-width: auto;
+        width: calc(100% - 20px);
+    }
+    
+    .tools-dropdown .dropdown-menu {
+        position: fixed;
+        top: 70px;
+        right: 10px;
+        min-width: 180px;
+    }
+    
+    .dropdown-menu {
+        animation: dropdown-mobile 0.3s ease;
+    }
+    
+    @keyframes dropdown-mobile {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
 .toc-list li {
     margin: 8px 0;
     padding-left: 0;
@@ -1426,7 +1668,7 @@ font-size: 40px;
 .post-meta {
     display: flex;
     gap: 5px;
-    font-size: 0.5rem;
+    font-size: 0.6rem;
     margin-bottom: 0px;
     flex-wrap: wrap;
 }
