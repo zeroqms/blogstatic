@@ -205,6 +205,7 @@ padding: 10px;
         .nav-right {
             display: flex;
             align-items: center;
+            gap: 5px;
         }
         
         .search-bar {
@@ -239,7 +240,6 @@ padding: 10px;
             color: var(--primary-color);
             font-size: 1rem;
             cursor: pointer;
-            margin-left: 10px;
             transition: var(--transition);
             padding: 8px 12px;
             border-radius: 4px;
@@ -990,14 +990,11 @@ font-size: 40px;
     color: var(--text-color);
     font-size: 1.2rem;
     cursor: pointer;
-    padding: 10px 12px;
     border-radius: 50%;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
 }
 
 .nav-dropdown-toggle:hover {
@@ -1005,10 +1002,6 @@ font-size: 40px;
     transform: translateY(-2px);
 }
 
-.nav-dropdown.active .nav-dropdown-toggle {
-    background-color: var(--accent-color);
-    color: white;
-}
 
 .dropdown-menu {
     position: absolute;
@@ -1186,9 +1179,7 @@ mark {
 /* 响应式设计 */
 @media (max-width: 768px) {
     .nav-dropdown-toggle {
-        width: 36px;
-        height: 36px;
-        font-size: 1.1rem;
+        font-size: 12px;
     }
     
     .search-dropdown .dropdown-menu {
