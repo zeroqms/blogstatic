@@ -1010,6 +1010,42 @@ font-size: 40px;
     background-color: var(--hover-color);
     transform: translateY(-2px);
 }
+.comment-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.translate-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.translate-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.translate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.translated {
+    border-left: 3px solid #667eea;
+    padding-left: 10px;
+    font-style: italic;
+    color: #555;
+}
 
 
 .dropdown-menu {
