@@ -703,7 +703,7 @@ padding: 10px;
         
         .reply-form {
             margin-top: 10px;
-            display: none;
+            display: block;
         }
         
         .reply-form textarea {
