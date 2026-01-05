@@ -196,6 +196,7 @@ padding: 10px;
             color: var(--primary-color);
             font-weight: 500;
             transition: var(--transition);
+            cursor: pointer;
         }
         
         .nav-links a:hover {
