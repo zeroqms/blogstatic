@@ -338,7 +338,7 @@ padding: 10px;
         .sidebar {
             flex: 1;
             position: sticky;
-            top: -250px;
+            top: var(--sideheight);
             height: fit-content;
         }
         
