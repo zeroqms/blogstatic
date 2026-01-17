@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koishi-Blog 附件</title>
+    <link rel="stylesheet" href="https://www.lzbbs.top/bbs/static/css/6.0.0/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-color: #334155;
+            --text-secondary: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部样式 */
+        .header {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: 500;
+        }
+
+        .login-prompt {
+            background: var(--warning-color);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .breadcrumb ol {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb .separator {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* 文件列表容器 */
+        .file-list-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .file-header h2 {
+            font-size: 18px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .sort-btn {
+            padding: 8px 16px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .sort-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .sort-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 文件列表 */
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .file-item {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .file-icon.folder {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-align: center;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .file-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .file-size {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .file-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .file-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: none;
+        }
+
+        .file-item:hover .file-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 下载托盘 */
+        .download-tray {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            z-index: 1000;
+            display: none;
+        }
+
+        .tray-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .tray-header h3 {
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tray-count {
+            background: white;
+            color: var(--primary-color);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tray-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .tray-content {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .download-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .download-item:last-child {
+            border-bottom: none;
+        }
+
+        .download-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .download-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .download-name {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .download-progress {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .download-status {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .download-status.pending {
+            background: var(--warning-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        .download-status.downloading {
+            background: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        .download-status.success {
+            background: var(--success-color);
+        }
+
+        .download-status.error {
+            background: var(--error-color);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--border-color);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .file-list {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .download-tray {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+            }
+        }
+
+        /* 工具提示 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-folder-open"></i>
+                博客文件中心
+            </h1>
+            <div class="user-info" id="userInfo">
+                <!-- 用户信息通过JS动态加载 -->
+            </div>
+        </div>
+
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb" id="breadcrumb">
+            <ol>
+                <li>
+                    <a href="#" data-id="" class="breadcrumb-item">
+                        <i class="fas fa-home"></i>
+                        根目录
+                    </a>
+                </li>
+            </ol>
+        </div>
+
+        <!-- 文件列表 -->
+        <div class="file-list-container">
+            <div class="file-header">
+                <h2>
+                    <i class="fas fa-files"></i>
+                    文件列表
+                </h2>
+                <div class="sort-options">
+                    <button class="sort-btn active" data-sort="1">
+                        <i class="fas fa-sort-alpha-down"></i>
+                        名称升序
+                    </button>
+                    <button class="sort-btn" data-sort="2">
+                        <i class="fas fa-sort-alpha-up"></i>
+                        名称降序
+                    </button>
+                    <button class="sort-btn" data-sort="5">
+                        <i class="fas fa-sort-numeric-down"></i>
+                        时间升序
+                    </button>
+                </div>
+            </div>
+            
+            <div class="file-list" id="fileList">
+                <!-- 文件列表通过JS动态加载 -->
+            </div>
+        </div>
+
+        <!-- 加载状态 -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>正在加载文件列表...</p>
+        </div>
+
+        <!-- 空状态 -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <h3>文件夹为空</h3>
+            <p>当前目录下没有文件或文件夹</p>
+        </div>
+    </div>
+
+    <!-- 下载托盘 -->
+    <div class="download-tray" id="downloadTray">
+        <div class="tray-header" id="trayHeader">
+            <h3>
+                <i class="fas fa-download"></i>
+                下载队列
+                <span class="tray-count" id="trayCount">0</span>
+            </h3>
+            <button class="tray-toggle" id="trayToggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="tray-content" id="trayContent">
+            <!-- 下载项通过JS动态添加 -->
+        </div>
+    </div>
+
+    <script>
+        // 配置
+        const CONFIG = {
+            API_BASE: '/api', // 边缘函数API地址
+            SPACE_ID: 's.ww497d2a82f9615a88.768635337y2K'
+        };
+
+        // 全局状态
+        let currentFolderId = CONFIG.SPACE_ID;
+        let currentSort = 1;
+        let user = null;
+        let breadcrumb = [];
+        let downloads = [];
+
+        // DOM元素
+        const fileListEl = document.getElementById('fileList');
+        const loadingEl = document.getElementById('loading');
+        const emptyStateEl = document.getElementById('emptyState');
+        const userInfoEl = document.getElementById('userInfo');
+        const breadcrumbEl = document.getElementById('breadcrumb');
+        const downloadTrayEl = document.getElementById('downloadTray');
+        const trayContentEl = document.getElementById('trayContent');
+        const trayCountEl = document.getElementById('trayCount');
+        const trayHeaderEl = document.getElementById('trayHeader');
+        const trayToggleEl = document.getElementById('trayToggle');
+
+        // 工具函数：格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 工具函数：格式化时间戳
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp * 1000);
+            return date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // 工具函数：获取文件图标
+        function getFileIcon(fileType) {
+            switch(fileType) {
+                case 1: return 'fa-folder'; // 文件夹
+                case 2: return 'fa-file';   // 文件
+                case 3: return 'fa-file-word'; // 文档
+                case 4: return 'fa-file-excel'; // 表格
+                case 5: return 'fa-file-alt'; // 收集表
+                default: return 'fa-file';
+            }
+        }
+
+        // 获取用户token（从博客系统获取）
+        function getAuthToken() {
+            // 这里假设博客系统将token存储在localStorage中
+            // 实际使用时需要根据博客系统的实现进行调整
+            return localStorage.getItem('auth_token') || sessionStorage.getItem('blog_token');
+        }
+
+        // 验证用户登录状态
+        async function checkUserLogin() {
+            try {
+                const token = getAuthToken();
+                if (!token) {
+                    showLoginPrompt();
+                    return false;
+                }
+
+                const response = await fetch(`${CONFIG.API_BASE}/user`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.logged_in && data.user) {
+                    user = data.user;
+                    showUserInfo();
+                    return true;
+                } else {
+                    showLoginPrompt();
+                    return false;
+                }
+            } catch (error) {
+                console.error('验证用户失败:', error);
+                showLoginPrompt();
+                return false;
+            }
+        }
+
+        // 显示用户信息
+        function showUserInfo() {
+            userInfoEl.innerHTML = `
+                <div class="avatar">
+                    <img src="${user.avatar}" alt="${user.username}">
+                </div>
+                <div class="username">${user.username}</div>
+            `;
+        }
+
+        // 显示登录提示
+        function showLoginPrompt() {
+            userInfoEl.innerHTML = `
+                <div class="login-prompt">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    请先登录博客系统
+                </div>
+            `;
+            window.location.href = '/';
+        }
+
+        // 获取文件列表
+        async function getFileList(folderId = CONFIG.SPACE_ID, sort = 1, start = 0) {
+            try {
+                loadingEl.style.display = 'block';
+                emptyStateEl.style.display = 'none';
+                fileListEl.innerHTML = '';
+
+                const token = getAuthToken();
+                const response = await fetch(`${CONFIG.API_BASE}/list`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        fatherid: folderId,
+                        sort_type: sort,
+                        start: start,
+                        limit: 100
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.errcode === 0 && data.file_list && data.file_list.item) {
+                    displayFileList(data.file_list.item);
+                    updateBreadcrumb(folderId);
+                    
+                    if (data.file_list.item.length === 0) {
+                        emptyStateEl.style.display = 'block';
+                    }
+                } else {
+                    showError('获取文件列表失败: ' + (data.errmsg || '未知错误'));
+                }
+            } catch (error) {
+                console.error('获取文件列表失败:', error);
+                showError('网络错误，请稍后重试');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        // 显示文件列表
+        function displayFileList(files) {
+            fileListEl.innerHTML = '';
+
+            files.forEach(file => {
+                const isFolder = file.file_type === 1;
+                const iconClass = getFileIcon(file.file_type);
+                
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.dataset.fileid = file.fileid;
+                fileItem.dataset.type = file.file_type;
+                fileItem.dataset.filename = file.file_name;
+                fileItem.dataset.size = file.file_size;
+                
+                fileItem.innerHTML = `
+                    <div class="file-icon ${isFolder ? 'folder' : ''}">
+                        <i class="fas ${iconClass}"></i>
+                    </div>
+                    <div class="file-name">${file.file_name}</div>
+                    <div class="file-meta">
+                        <span class="file-size">
+                            <i class="fas fa-hdd"></i>
+                            ${isFolder ? '文件夹' : formatFileSize(file.file_size)}
+                        </span>
+                        <span class="file-date">
+                            <i class="fas fa-calendar"></i>
+                            ${formatTimestamp(file.mtime)}
+                        </span>
+                    </div>
+                    ${!isFolder ? `
+                    <div class="file-actions">
+                        <button class="action-btn tooltip download-btn" title="下载文件">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                    ` : ''}
+                `;
+
+                // 添加点击事件
+                fileItem.addEventListener('click', (e) => {
+                    if (!e.target.closest('.action-btn')) {
+                        if (isFolder) {
+                            currentFolderId = file.fileid;
+                            getFileList(currentFolderId, currentSort);
+                        }
+                    }
+                });
+
+                // 添加下载按钮事件
+                if (!isFolder) {
+                    const downloadBtn = fileItem.querySelector('.download-btn');
+                    downloadBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        downloadFile(file);
+                    });
+                }
+
+                fileListEl.appendChild(fileItem);
+            });
+        }
+
+        // 更新面包屑导航
+        function updateBreadcrumb(folderId) {
+            // 简化实现：只显示当前目录和根目录
+            // 实际应用中可能需要获取完整的目录树
+            breadcrumbEl.innerHTML = `
+                <ol>
+                    <li>
+                        <a href="#" data-id="" class="breadcrumb-item">
+                            <i class="fas fa-home"></i>
+                            根目录
+                        </a>
+                    </li>
+                    ${folderId !== CONFIG.SPACE_ID ? `
+                    <li class="separator">/</li>
+                    <li>
+                        <a href="#" class="breadcrumb-item">
+                            当前目录
+                        </a>
+                    </li>
+                    ` : ''}
+                </ol>
+            `;
+
+            // 添加面包屑点击事件
+            const breadcrumbItems = breadcrumbEl.querySelectorAll('.breadcrumb-item');
+            breadcrumbItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const folderId = item.dataset.id || CONFIG.SPACE_ID;
+                    currentFolderId = folderId;
+                    getFileList(currentFolderId, currentSort);
+                });
+            });
+        }
+
+        // 下载文件
+        async function downloadFile(file) {
+            try {
+                // 添加到下载队列
+                addToDownloadQueue(file);
+                
+                const token = getAuthToken();
+                const response = await fetch(`${CONFIG.API_BASE}/download`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        fileid: file.fileid
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.errcode === 0 && data.download_url) {
+                    // 使用blob下载文件
+                    await downloadWithBlob(data.download_url, file.file_name, data.cookie_name, data.cookie_value);
+                    updateDownloadStatus(file.fileid, 'success');
+                } else {
+                    throw new Error(data.errmsg || '下载失败');
+                }
+            } catch (error) {
+                console.error('下载文件失败:', error);
+                updateDownloadStatus(file.fileid, 'error');
+                showError('下载失败: ' + error.message);
+            }
+        }
+
+        // 使用blob下载文件
+        async function downloadWithBlob(url, filename, cookieName, cookieValue) {
+            try {
+                updateDownloadStatus(filename, 'downloading');
+                
+                const response = await fetch(url, {
+                    headers: cookieName ? {
+                        [cookieName]: cookieValue
+                    } : {}
+                });
+
+                if (!response.ok) {
+                    throw new Error('下载请求失败');
+                }
+
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
+                
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // 添加到下载队列
+        function addToDownloadQueue(file) {
+            const downloadId = Date.now();
+            const downloadItem = {
+                id: downloadId,
+                fileid: file.fileid,
+                filename: file.file_name,
+                status: 'pending',
+                size: file.file_size,
+                progress: 0
+            };
+
+            downloads.push(downloadItem);
+            updateDownloadTray();
+            showDownloadTray();
+        }
+
+        // 更新下载状态
+        function updateDownloadStatus(fileid, status) {
+            const download = downloads.find(d => d.fileid === fileid);
+            if (download) {
+                download.status = status;
+                if (status === 'success') {
+                    setTimeout(() => {
+                        removeFromDownloadQueue(fileid);
+                    }, 2000);
+                }
+                updateDownloadTray();
+            }
+        }
+
+        // 从下载队列移除
+        function removeFromDownloadQueue(fileid) {
+            downloads = downloads.filter(d => d.fileid !== fileid);
+            updateDownloadTray();
+            if (downloads.length === 0) {
+                hideDownloadTray();
+            }
+        }
+
+        // 更新下载托盘
+        function updateDownloadTray() {
+            trayCountEl.textContent = downloads.length;
+            trayContentEl.innerHTML = '';
+
+            downloads.forEach(download => {
+                const item = document.createElement('div');
+                item.className = 'download-item';
+                item.innerHTML = `
+                    <div class="download-icon">
+                        <i class="fas fa-file-download"></i>
+                    </div>
+                    <div class="download-info">
+                        <div class="download-name">${download.filename}</div>
+                        <div class="download-progress">
+                            ${formatFileSize(download.size)}
+                        </div>
+                    </div>
+                    <div class="download-status ${download.status}"></div>
+                `;
+                trayContentEl.appendChild(item);
+            });
+        }
+
+        // 显示下载托盘
+        function showDownloadTray() {
+            downloadTrayEl.style.display = 'block';
+        }
+
+        // 隐藏下载托盘
+        function hideDownloadTray() {
+            downloadTrayEl.style.display = 'none';
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            alert(message); // 实际应用中可以使用更优雅的提示方式
+        }
+
+        // 初始化排序按钮
+        function initSortButtons() {
+            const sortButtons = document.querySelectorAll('.sort-btn');
+            sortButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    sortButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentSort = parseInt(button.dataset.sort);
+                    getFileList(currentFolderId, currentSort);
+                });
+            });
+        }
+
+        // 初始化下载托盘交互
+        function initDownloadTray() {
+            let trayCollapsed = false;
+            
+            trayToggleEl.addEventListener('click', () => {
+                trayCollapsed = !trayCollapsed;
+                trayContentEl.style.display = trayCollapsed ? 'none' : 'block';
+                trayToggleEl.innerHTML = trayCollapsed ? 
+                    '<i class="fas fa-chevron-up"></i>' : 
+                    '<i class="fas fa-chevron-down"></i>';
+            });
+
+            trayHeaderEl.addEventListener('click', (e) => {
+                if (e.target !== trayToggleEl && !trayToggleEl.contains(e.target)) {
+                    trayCollapsed = !trayCollapsed;
+                    trayContentEl.style.display = trayCollapsed ? 'none' : 'block';
+                    trayToggleEl.innerHTML = trayCollapsed ? 
+                        '<i class="fas fa-chevron-up"></i>' : 
+                        '<i class="fas fa-chevron-down"></i>';
+                }
+            });
+        }
+
+        // 初始化
+        async function init() {
+            initSortButtons();
+            initDownloadTray();
+            
+            // 检查用户登录状态
+            const isLoggedIn = await checkUserLogin();
+            
+            if (isLoggedIn) {
+                // 获取文件列表
+                await getFileList(currentFolderId, currentSort);
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
