@@ -867,7 +867,7 @@
 
                 if (data.errcode === 0 && data.download_url) {
                     // 使用blob下载文件，同时传递cookie
-                    await downloadWithBlob(data.download_url, file.file_name, data.cookie_name, data.cookie_value);
+                    await downloadWithBlob(data.download_url + '?authkey=' + data.cookie_value, file.file_name, null, null);
                     updateDownloadStatus(file.fileid, 'success');
                 } else {
                     throw new Error(data.errmsg || '下载失败');
@@ -883,15 +883,7 @@
             try {
                 updateDownloadStatus(filename, 'downloading');
                 
-                // 设置请求头，包括cookie
-                const headers = {};
-                if (cookieName && cookieValue) {
-                    headers['Cookie'] = `${cookieName}=${cookieValue}`;
-                }
-                
                 const response = await fetch(url, {
-                    headers: headers,
-                    credentials: 'include'
                 });
 
                 if (!response.ok) {
