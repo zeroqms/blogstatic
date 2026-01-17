@@ -890,7 +890,8 @@
                 }
                 
                 const response = await fetch(url, {
-                    headers: headers
+                    headers: headers,
+                    credentials: 'include'
                 });
 
                 if (!response.ok) {
