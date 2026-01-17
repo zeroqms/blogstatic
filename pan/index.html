@@ -890,8 +890,7 @@
                 }
                 
                 const response = await fetch(url, {
-                    headers: headers,
-                    credentials: 'omit' // 不发送cookies，因为我们已经手动设置了
+                    headers: headers
                 });
 
                 if (!response.ok) {
