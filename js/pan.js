@@ -58,9 +58,7 @@
 
         // 获取用户token（从博客系统获取）
         function getAuthToken() {
-            // 这里假设博客系统将token存储在localStorage中
-            // 实际使用时需要根据博客系统的实现进行调整
-            return localStorage.getItem('auth_token') || sessionStorage.getItem('blog_token');
+            return localStorage.getItem('auth_token');
         }
 
         // 验证用户登录状态
