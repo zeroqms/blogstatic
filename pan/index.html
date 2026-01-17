@@ -845,6 +845,7 @@
         }
 
         // 下载文件
+                // 下载文件
         async function downloadFile(file) {
             try {
                 // 添加到下载队列
@@ -865,7 +866,7 @@
                 const data = await response.json();
 
                 if (data.errcode === 0 && data.download_url) {
-                    // 使用blob下载文件
+                    // 使用blob下载文件，同时传递cookie
                     await downloadWithBlob(data.download_url, file.file_name, data.cookie_name, data.cookie_value);
                     updateDownloadStatus(file.fileid, 'success');
                 } else {
@@ -877,16 +878,20 @@
                 showError('下载失败: ' + error.message);
             }
         }
-
-        // 使用blob下载文件
+               // 使用blob下载文件
         async function downloadWithBlob(url, filename, cookieName, cookieValue) {
             try {
                 updateDownloadStatus(filename, 'downloading');
                 
+                // 设置请求头，包括cookie
+                const headers = {};
+                if (cookieName && cookieValue) {
+                    headers['Cookie'] = `${cookieName}=${cookieValue}`;
+                }
+                
                 const response = await fetch(url, {
-                    headers: cookieName ? {
-                        [cookieName]: cookieValue
-                    } : {}
+                    headers: headers,
+                    credentials: 'omit' // 不发送cookies，因为我们已经手动设置了
                 });
 
                 if (!response.ok) {
