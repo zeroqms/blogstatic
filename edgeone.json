@@ -19,4 +19,12 @@
         ]
       }
     ]
+},
+{
+  "rewrites": [
+    {
+      "source": "/post/\\d+",
+      "destination": "/index.html"
+    }
+  ]
 }
