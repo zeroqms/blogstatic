@@ -21,7 +21,7 @@
   ],
   "rewrites": [
     {
-      "source": "/post/\\d+",
+      "source": "/post/*",
       "destination": "/index.html"
     }
   ]
