@@ -89,7 +89,7 @@
         </aside>
         <main class="main-content">
             <div class="post-list">
-              <div class="post-card" onclick="openPostDetail(9)" style="animation-delay: 0s; opacity: 1; transform: translateY(0px);">
+              <div class="post-card" onclick="gohome()" style="animation-delay: 0s; opacity: 1; transform: translateY(0px);">
                 <h3 class="post-title">404 - Pages Not Found</h3>
                 <p class="post-excerpt">可能是页面被拐到二次元了把~</p>
             </div>
@@ -165,5 +165,10 @@
     </div>
 </div>
     <script src="/js/main.js"></script>
+    <script>
+        function gohome(){
+            window.location.href = 'https://www.example.com';
+        }
+    </script>
 </body>
 </html>
