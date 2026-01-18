@@ -1906,6 +1906,8 @@ font-size: 0.9rem;
     color: #57606a;
     margin-bottom: 1rem;
     line-height: 1.5;
+    font-size: 10px;
+    gap: 0.6rem;
 }
 
 .repo-meta {
