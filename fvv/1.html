@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Pixiv 作品搜索 · 多页翻页SPA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: #1a1a2e;
+        }
+
+        .app {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+        }
+
+        .search-header {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            padding: 20px 28px;
+            margin-bottom: 32px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .sub {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 60px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42,82,152,0.2);
+        }
+
+        .search-btn {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 0 28px;
+            border-radius: 60px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .search-btn:hover {
+            background: #0f2b4f;
+            transform: scale(0.97);
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-left: 5px solid #2a5298;
+            padding-left: 16px;
+        }
+        .result-count {
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 28px 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title span {
+            background: #e9ecef;
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card-img {
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            width: 100%;
+            background: #f0f2f5;
+            display: block;
+        }
+
+        .card-info {
+            padding: 12px 14px 16px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-user {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .tag {
+            background: #eef2ff;
+            color: #1e3c72;
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+        }
+
+        .detail-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            padding: 28px 32px;
+            margin-bottom: 24px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #2a5298;
+            font-weight: 500;
+            margin-bottom: 24px;
+            padding: 6px 12px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .back-btn:hover {
+            background: #eef2ff;
+        }
+
+        .detail-header {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .detail-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .detail-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: #5a626e;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 16px;
+        }
+        .detail-image-area {
+            margin: 24px 0;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 28px;
+            padding: 20px;
+        }
+        .detail-img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            object-fit: contain;
+        }
+        .page-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .page-btn {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .page-btn:disabled {
+            background: #b0c4de;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .page-btn:hover:not(:disabled) {
+            background: #0f2b4f;
+        }
+        .page-indicator {
+            font-size: 1rem;
+            font-weight: 500;
+            background: #eef2ff;
+            padding: 6px 16px;
+            border-radius: 40px;
+        }
+        .detail-description {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 24px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .detail-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .loading, .error-msg, .empty-msg {
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 40px;
+        }
+        .error-msg { background: #ffe3e3; color: #c0392b; }
+        .empty-msg { background: #fff9e8; color: #b85c00; }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        @media (max-width: 640px) {
+            .app { padding: 16px; }
+            .grid { gap: 16px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .detail-container { padding: 16px; }
+            .detail-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="search-header">
+        <div class="logo-area">
+            <h1>✨ Pixiv 探索镜 · 多页浏览</h1>
+            <div class="sub">插画 · 漫画 · 小说 (支持多页翻页)</div>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="输入标签 / 关键词，例如: 放尿, おしっこ, 制服..." value="放尿">
+            <button id="searchButton" class="search-btn">搜索</button>
+        </div>
+    </div>
+
+    <div id="searchView" class="view active">
+        <div id="resultsArea"><div class="loading">✨ 输入关键词，点击搜索发现作品</div></div>
+    </div>
+
+    <div id="detailView" class="view">
+        <button class="back-btn" id="backToSearchBtn">← 返回搜索结果</button>
+        <div id="detailContent"><div class="loading">加载详情中...</div></div>
+    </div>
+    <footer>图片代理服务 · 支持多页翻页 (p0,p1,p2...)</footer>
+</div>
+
+<script>
+    // ---------- API 配置 ----------
+    const API_BASE = 'https://1.kish.top';
+    const IMG_PROXY = 'https://2.kish.top/?p=';
+    const REFERER_URL = 'https://www.pixiv.net';
+
+    function getProxiedImage(originalUrl) {
+        if (!originalUrl) return '';
+        if (originalUrl.startsWith(IMG_PROXY)) return originalUrl;
+        return `${IMG_PROXY}${encodeURIComponent(originalUrl)}&r=${encodeURIComponent(REFERER_URL)}`;
+    }
+
+    let lastSearchKeyword = '';
+    let lastSearchResponse = null;
+
+    const searchView = document.getElementById('searchView');
+    const detailView = document.getElementById('detailView');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchButton');
+    const resultsArea = document.getElementById('resultsArea');
+    const detailContentDiv = document.getElementById('detailContent');
+    const backBtn = document.getElementById('backToSearchBtn');
+
+    // ---------- 多页状态管理 ----------
+    let currentDetailState = {
+        illustId: null,
+        pageCount: 1,
+        baseRawUrl: '',      // 原始不带页码后缀的模板? 存储第一页的原始URL用于生成其他页
+        currentPage: 0,
+        updateImage: null    // 将在渲染时绑定
+    };
+
+    // 根据原始第一页URL和页码生成对应页的原始URL (替换 _p0 为 _p{page})
+    function getPageUrlFromBase(baseUrlFirstPage, pageIndex) {
+        // Pixiv 多页规律: 文件名中包含 _p0_ 或 _p0.  ，例如 xxx_p0_master1200.jpg
+        // 替换 _p数字 部分
+        const regex = /_p\d+/;
+        if (regex.test(baseUrlFirstPage)) {
+            return baseUrlFirstPage.replace(regex, `_p${pageIndex}`);
+        } else {
+            // 如果没有 _p 标记 (极少情况), 则在文件扩展名前插入 _p{pageIndex}
+            const lastDot = baseUrlFirstPage.lastIndexOf('.');
+            if (lastDot !== -1) {
+                return baseUrlFirstPage.slice(0, lastDot) + `_p${pageIndex}` + baseUrlFirstPage.slice(lastDot);
+            }
+            return baseUrlFirstPage + `_p${pageIndex}`;
+        }
+    }
+
+    // 更新详情页的图片 (根据当前页码)
+    function updateDetailImageByPage(page) {
+        if (!currentDetailState.baseRawUrl || !currentDetailState.pageCount) return;
+        if (page < 0) page = 0;
+        if (page >= currentDetailState.pageCount) page = currentDetailState.pageCount - 1;
+        currentDetailState.currentPage = page;
+        const rawUrl = getPageUrlFromBase(currentDetailState.baseRawUrl, page);
+        const proxyUrl = getProxiedImage(rawUrl);
+        const imgElement = document.getElementById('detailMainImage');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        if (imgElement) imgElement.src = proxyUrl;
+        if (pageIndicator) pageIndicator.innerText = `${page+1} / ${currentDetailState.pageCount}`;
+        if (prevBtn) prevBtn.disabled = (page === 0);
+        if (nextBtn) nextBtn.disabled = (page === currentDetailState.pageCount - 1);
+    }
+
+    function prevPage() {
+        if (currentDetailState.currentPage > 0) {
+            updateDetailImageByPage(currentDetailState.currentPage - 1);
+        }
+    }
+
+    function nextPage() {
+        if (currentDetailState.currentPage < currentDetailState.pageCount - 1) {
+            updateDetailImageByPage(currentDetailState.currentPage + 1);
+        }
+    }
+
+    // 渲染插画/漫画详情 (带多页翻页)
+    function renderIllustDetail(detail, illustId) {
+        const title = detail.illustTitle || detail.title || '无标题';
+        const userName = detail.userName || '未知作者';
+        const userId = detail.userId || '';
+        const description = detail.illustComment || detail.description || '暂无简介';
+        const tagsArray = detail.tags?.tags || detail.tags || [];
+        const tags = Array.isArray(tagsArray) ? tagsArray : (tagsArray.tags || []);
+        const createDate = detail.createDate ? new Date(detail.createDate).toLocaleString() : '未知日期';
+        const bookmarkCount = detail.bookmarkCount || 0;
+        const viewCount = detail.viewCount || 0;
+        const pageCount = detail.pageCount || 1;
+
+        // 获取第一页图片原始URL (未代理)
+        let firstPageRawUrl = '';
+        if (detail.urls && detail.urls.regular) {
+            firstPageRawUrl = detail.urls.regular;
+        } else if (detail.urls && detail.urls.original) {
+            firstPageRawUrl = detail.urls.original;
+        } else if (detail.url) {
+            firstPageRawUrl = detail.url;
+        }
+        if (!firstPageRawUrl) {
+            detailContentDiv.innerHTML = `<div class="error-msg">无法获取图片地址</div>`;
+            return;
+        }
+
+        // 存储状态
+        currentDetailState = {
+            illustId: illustId,
+            pageCount: pageCount,
+            baseRawUrl: firstPageRawUrl,   // 第一页原始URL作为模板
+            currentPage: 0,
+        };
+
+        // 生成分页控件HTML (多页才显示)
+        let pageControlsHtml = '';
+        if (pageCount > 1) {
+            pageControlsHtml = `
+                <div class="page-control">
+                    <button class="page-btn" id="prevPageBtn" ${pageCount <= 1 ? 'disabled' : ''}>◀ 上一页</button>
+                    <span class="page-indicator" id="pageIndicator">1 / ${pageCount}</span>
+                    <button class="page-btn" id="nextPageBtn" ${pageCount <= 1 ? 'disabled' : ''}>下一页 ▶</button>
+                </div>
+            `;
+        }
+
+        // 第一张代理图片
+        const firstProxy = getProxiedImage(firstPageRawUrl);
+        const tagDisplay = tags.map(tagObj => {
+            const tagName = typeof tagObj === 'string' ? tagObj : (tagObj.tag || '');
+            return `<span class="tag">${escapeHtml(tagName)}</span>`;
+        }).join('');
+
+        const detailHtml = `
+            <div class="detail-container">
+                <div class="detail-header">
+                    <h2 class="detail-title">${escapeHtml(title)}</h2>
+                    <div class="detail-meta">
+                        <span>👤 作者：${escapeHtml(userName)} (ID: ${userId})</span>
+                        <span>⭐ ${bookmarkCount} 收藏</span>
+                        <span>👁️ ${viewCount} 浏览</span>
+                        <span>📅 ${createDate}</span>
+                        <span>📄 ${pageCount} 页</span>
+                    </div>
+                </div>
+                <div class="detail-image-area">
+                    <img id="detailMainImage" class="detail-img" src="${firstProxy}" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/800x800?text=Load+Error'">
+                    ${pageControlsHtml}
+                </div>
+                ${description ? `<div class="detail-description">📝 ${escapeHtml(description).replace(/\n/g, '<br>')}</div>` : ''}
+                <div class="detail-tags">🏷️ ${tagDisplay || '无标签'}</div>
+                <div style="font-size:0.75rem; color:#aaa; margin-top:16px;">* 图片经由代理展示，多页作品支持 p0,p1,p2... 翻页</div>
+            </div>
+        `;
+
+        detailContentDiv.innerHTML = detailHtml;
+
+        // 绑定翻页按钮事件 (仅当多页)
+        if (pageCount > 1) {
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            if (prevBtn) prevBtn.onclick = () => prevPage();
+            if (nextBtn) nextBtn.onclick = () => nextPage();
+        }
+    }
+
+    // 小说轻量详情 (无翻页)
+    function showNovelDetailFromLocal(extra, novelId) {
+        const title = extra.title || '无标题';
+        const userName = extra.userName || '未知作者';
+        const description = extra.description || '暂无简介';
+        const tags = extra.tags || [];
+        const textCount = extra.textCount || 0;
+        const wordCount = extra.wordCount || 0;
+        const createDateRaw = extra.createDate || '';
+        const seriesTitle = extra.seriesTitle || '';
+        const coverUrl = extra.coverUrl || '';
+
+        const tagHtml = tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+        const detailHtml = `
+            <div class="detail-container">
+                <div class="detail-header">
+                    <h2 class="detail-title">📘 ${escapeHtml(title)}</h2>
+                    <div class="detail-meta">
+                        <span>✍️ 作者：${escapeHtml(userName)}</span>
+                        <span>📝 文字数：约 ${wordCount} 字</span>
+                        <span>📄 文本长度：${textCount} 字符</span>
+                        ${createDateRaw ? `<span>📅 ${new Date(createDateRaw).toLocaleString()}</span>` : ''}
+                        ${seriesTitle ? `<span>📚 系列：${escapeHtml(seriesTitle)}</span>` : ''}
+                    </div>
+                </div>
+                ${coverUrl ? `<div class="detail-image-area" style="max-width:300px; margin:0 auto;"><img class="detail-img" src="${coverUrl}" style="max-height:300px;" alt="cover"></div>` : ''}
+                <div class="detail-description">
+                    ${description ? escapeHtml(description).replace(/\n/g, '<br>') : '（作者没有留下简介）'}
+                </div>
+                <div class="detail-tags">🏷️ ${tagHtml || '无标签'}</div>
+                <div style="background:#fef3c7; border-radius: 18px; padding: 12px; margin-top: 16px;">
+                    💡 小说作品详情基于搜索结果展示。如需完整阅读，可访问原平台pixiv。
+                </div>
+            </div>
+        `;
+        detailContentDiv.innerHTML = detailHtml;
+    }
+
+    async function fetchIllustDetail(illustId, type) {
+        showDetail();
+        detailContentDiv.innerHTML = `<div class="loading">🖼️ 加载作品详情中，请稍后...</div>`;
+        try {
+            const url = `${API_BASE}/ajax/illust/${illustId}?lang=zh`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data || data.error === true) {
+                throw new Error(data.message || '获取详情失败');
+            }
+            renderIllustDetail(data.body, illustId);
+        } catch (err) {
+            detailContentDiv.innerHTML = `<div class="error-msg">❌ 详情加载失败: ${err.message}<br>请稍后重试或返回重选</div>`;
+        }
+    }
+
+    // 渲染搜索结果 (与之前相同, 仅修改小说点击事件)
+    function renderSearchResults(apiBody) {
+        if (!apiBody || apiBody.error === true) {
+            resultsArea.innerHTML = `<div class="error-msg">⚠️ 接口返回错误，请稍后重试</div>`;
+            return;
+        }
+        const body = apiBody.body || apiBody;
+        const novelData = body?.novel?.data || [];
+        const illustData = body?.illust?.data || [];
+        const mangaData = body?.manga?.data || [];
+        const totalNovel = body?.novel?.total || 0;
+        const totalIllust = body?.illust?.total || 0;
+        const totalManga = body?.manga?.total || 0;
+
+        if (novelData.length === 0 && illustData.length === 0 && mangaData.length === 0) {
+            resultsArea.innerHTML = `<div class="empty-msg">😢 没有找到相关作品，试试其他关键词～</div>`;
+            return;
+        }
+
+        let html = `<div class="result-header"><div class="result-count">🎨 共找到 小说 ${totalNovel} · 插画 ${totalIllust} · 漫画 ${totalManga} 件作品</div></div>`;
+
+        // 插画
+        if (illustData.length > 0) {
+            html += `<div class="section-title">🖌️ 插画作品 <span>${illustData.length}</span></div><div class="grid">`;
+            illustData.forEach(item => {
+                const coverUrl = item.url || '';
+                const proxyCover = getProxiedImage(coverUrl);
+                const title = item.title || '无标题';
+                const userName = item.userName || '未知作者';
+                const tags = (item.tags || []).slice(0, 3);
+                html += `
+                    <div class="card" data-type="illust" data-id="${item.id}" data-extra='${JSON.stringify({ title, userName, coverUrl: proxyCover, tags })}'>
+                        <img class="card-img" src="${proxyCover}" loading="lazy" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'">
+                        <div class="card-info">
+                            <div class="card-title">${escapeHtml(title)}</div>
+                            <div class="card-user">👤 ${escapeHtml(userName)}</div>
+                            <div class="card-tags">${tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+
+        // 漫画
+        if (mangaData.length > 0) {
+            html += `<div class="section-title">📚 漫画作品 <span>${mangaData.length}</span></div><div class="grid">`;
+            mangaData.forEach(item => {
+                const coverUrl = item.url || '';
+                const proxyCover = getProxiedImage(coverUrl);
+                const title = item.title || '无标题';
+                const userName = item.userName || '未知作者';
+                const tags = (item.tags || []).slice(0, 3);
+                html += `
+                    <div class="card" data-type="manga" data-id="${item.id}" data-extra='${JSON.stringify({ title, userName, coverUrl: proxyCover, tags })}'>
+                        <img class="card-img" src="${proxyCover}" loading="lazy" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/400x400?text=No+Image'">
+                        <div class="card-info">
+                            <div class="card-title">${escapeHtml(title)}</div>
+                            <div class="card-user">👤 ${escapeHtml(userName)}</div>
+                            <div class="card-tags">${tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+
+        // 小说
+        if (novelData.length > 0) {
+            html += `<div class="section-title">📖 小说作品 <span>${novelData.length}</span></div><div class="grid">`;
+            novelData.forEach(item => {
+                const coverUrl = item.url || '';
+                const proxyCover = getProxiedImage(coverUrl);
+                const title = item.title || '无标题';
+                const userName = item.userName || '未知作者';
+                const tags = (item.tags || []).slice(0, 3);
+                html += `
+                    <div class="card" data-type="novel" data-id="${item.id}" data-extra='${JSON.stringify({ 
+                        title, userName, coverUrl: proxyCover, tags, 
+                        description: item.description || '', textCount: item.textCount, 
+                        wordCount: item.wordCount, createDate: item.createDate, seriesTitle: item.seriesTitle 
+                    })}'>
+                        <img class="card-img" src="${proxyCover}" loading="lazy" alt="${escapeHtml(title)}" onerror="this.src='https://placehold.co/400x400?text=Novel+Cover'">
+                        <div class="card-info">
+                            <div class="card-title">${escapeHtml(title)}</div>
+                            <div class="card-user">✍️ ${escapeHtml(userName)}</div>
+                            <div class="card-tags">${tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+
+        resultsArea.innerHTML = html;
+
+        // 绑定卡片点击事件 (事件委托)
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const type = card.getAttribute('data-type');
+                const id = card.getAttribute('data-id');
+                const extraRaw = card.getAttribute('data-extra');
+                let extraData = {};
+                try { extraData = JSON.parse(extraRaw || '{}'); } catch(e) { console.warn(e); }
+                if (type === 'illust' || type === 'manga') {
+                    fetchIllustDetail(id, type);
+                } else if (type === 'novel') {
+                    showNovelDetailFromLocal(extraData, id);
+                }
+            });
+        });
+    }
+
+    async function performSearch(keyword) {
+        if (!keyword.trim()) {
+            resultsArea.innerHTML = `<div class="error-msg">⚠️ 请输入搜索关键词</div>`;
+            return;
+        }
+        resultsArea.innerHTML = `<div class="loading">🔍 搜索“${escapeHtml(keyword)}” 作品中...</div>`;
+        try {
+            const url = `${API_BASE}/ajax/search/top/${encodeURIComponent(keyword)}?lang=zh`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data || data.error === true) throw new Error(data.message || '接口返回错误');
+            lastSearchKeyword = keyword;
+            lastSearchResponse = data;
+            renderSearchResults(data);
+            showSearch();
+        } catch (err) {
+            resultsArea.innerHTML = `<div class="error-msg">❌ 搜索失败：${err.message}<br>请检查网络或稍后再试</div>`;
+        }
+    }
+
+    function showSearch() {
+        searchView.classList.add('active');
+        detailView.classList.remove('active');
+        if (lastSearchResponse) renderSearchResults(lastSearchResponse);
+    }
+
+    function showDetail() {
+        searchView.classList.remove('active');
+        detailView.classList.add('active');
+    }
+
+    backBtn.addEventListener('click', () => {
+        if (lastSearchResponse) renderSearchResults(lastSearchResponse);
+        else resultsArea.innerHTML = `<div class="empty-msg">暂无历史搜索，请重新搜索～</div>`;
+        showSearch();
+    });
+
+    searchBtn.addEventListener('click', () => {
+        const keyword = searchInput.value.trim();
+        if (keyword) performSearch(keyword);
+        else resultsArea.innerHTML = `<div class="error-msg">请输入搜索内容</div>`;
+    });
+    searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchBtn.click(); });
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        performDefault();
+    });
+    async function performDefault() {
+        const defaultKeyword = searchInput.value.trim() || "放尿";
+        await performSearch(defaultKeyword);
+    }
+</script>
+</body>
+</html>
