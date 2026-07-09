@@ -820,6 +820,9 @@ padding: 10px;
 font-size: 40px;
 margin-bottom: 15px;
 }
+img {
+max-width: 100%;
+}
  .github-ref-box {
     border: 1px solid #e1e4e8;
     border-radius: 8px;
