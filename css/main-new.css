@@ -99,7 +99,7 @@
 body.dark-theme {
     /* 背景渐变 —— 深色 */
     --bg-start: #ffffff;
-    --bg-mid: #d2e7bb;
+    --bg-mid: #dce9cf;
     --bg-end: #dbc3c3;
 
     /* 磨砂玻璃 */
