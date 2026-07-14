@@ -98,9 +98,9 @@
    ============================================================ */
 body.dark-theme {
     /* 背景渐变 —— 深色 */
-    --bg-start: #0B0A1A;
-    --bg-mid: #1A1640;
-    --bg-end: #2D1B4E;
+    --bg-start: #ffffff;
+    --bg-mid: #d2e7bb;
+    --bg-end: #dbc3c3;
 
     /* 磨砂玻璃 */
     --glass-bg: rgba(255, 255, 255, 0.07);
@@ -184,7 +184,20 @@ body.dark-theme {
     box-sizing: border-box;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
+       ::-webkit-scrollbar {
+           background: transparent;
+           width: 8px;
+           height: 8px;
+       }
 
+       ::-webkit-scrollbar-thumb {
+           background: rgba(0,0,0,0.3);
+           border-radius: 4px;
+       }
+
+       ::-webkit-scrollbar-thumb:hover {
+           background: rgba(0,0,0,0.5);
+        }
 html {
     font-size: 15px;
     scroll-behavior: smooth;
