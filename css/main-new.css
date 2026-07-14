@@ -1,5 +1,5 @@
 /* ============================================================
-   1. CSS 变量 —— 所有配色均由这些变量控制
+   1. CSS 变量 —— 默认浅色 (Light)
    ============================================================ */
 :root {
     /* ---------- 主色调 ---------- */
@@ -14,123 +14,53 @@
     --accent-dark: #36B5AD;
 
     /* ---------- 状态色 ---------- */
-    --success: #00D4AA;
-    --warning: #FFB800;
-    --danger: #FF6B6B;
+    --success: #00B894;
+    --warning: #FDCB6E;
+    --danger: #E17055;
     --info: #4ECDC4;
 
-    /* ---------- 背景渐变 (body) ---------- */
-    --bg-start: #0B0A1A;
-    --bg-mid: #1A1640;
-    --bg-end: #2D1B4E;
-
-    /* ---------- 磨砂玻璃 ---------- */
-    --glass-bg: rgba(255, 255, 255, 0.07);
-    --glass-bg-hover: rgba(255, 255, 255, 0.14);
-    --glass-border: rgba(255, 255, 255, 0.10);
-    --glass-border-hover: rgba(255, 255, 255, 0.20);
-    --glass-shadow: rgba(0, 0, 0, 0.40);
-    --glass-blur: 24px;
-
-    /* ---------- 卡片 ---------- */
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-shadow: rgba(0, 0, 0, 0.30);
-
-    /* ---------- 文字 ---------- */
-    --text-primary: #FFFFFF;
-    --text-secondary: rgba(255, 255, 255, 0.78);
-    --text-muted: rgba(255, 255, 255, 0.40);
-    --text-inverse: #0B0A1A;
-
-    /* ---------- 侧边栏 ---------- */
-    --sidebar-width: 228px;
-    --sidebar-bg: rgba(255, 255, 255, 0.05);
-    --sidebar-border: rgba(255, 255, 255, 0.06);
-    --sidebar-item-hover: rgba(255, 255, 255, 0.10);
-    --sidebar-item-active: rgba(108, 99, 255, 0.25);
-
-    /* ---------- 顶部栏 ---------- */
-    --header-bg: rgba(255, 255, 255, 0.04);
-    --header-border: rgba(255, 255, 255, 0.06);
-
-    /* ---------- 输入框 ---------- */
-    --input-bg: rgba(255, 255, 255, 0.07);
-    --input-border: rgba(255, 255, 255, 0.12);
-    --input-focus: rgba(108, 99, 255, 0.40);
-    --input-text: #FFFFFF;
-    --input-placeholder: rgba(255, 255, 255, 0.30);
-
-    /* ---------- 按钮 ---------- */
-    --btn-primary-bg: rgba(108, 99, 255, 0.25);
-    --btn-primary-border: rgba(108, 99, 255, 0.30);
-    --btn-primary-text: #FFFFFF;
-    --btn-primary-hover: rgba(108, 99, 255, 0.40);
-
-    --btn-ghost-bg: rgba(255, 255, 255, 0.06);
-    --btn-ghost-border: rgba(255, 255, 255, 0.10);
-    --btn-ghost-text: var(--text-secondary);
-    --btn-ghost-hover: rgba(255, 255, 255, 0.12);
-
-    /* ---------- 表格 / 列表 ---------- */
-    --table-header-bg: rgba(255, 255, 255, 0.04);
-    --table-row-hover: rgba(255, 255, 255, 0.06);
-    --table-border: rgba(255, 255, 255, 0.06);
-
-    /* ---------- 滚动条 ---------- */
-    --scrollbar-track: rgba(255, 255, 255, 0.03);
-    --scrollbar-thumb: rgba(255, 255, 255, 0.15);
-    --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
-
-    /* ---------- 过渡 ---------- */
-    --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* ============================================================
-   2. 浅色模式 (Light Mode) —— 通过 body.light-mode 切换
-   ============================================================ */
-body.light-mode {
-    /* 背景渐变 —— 明亮 */
+    /* ---------- 背景渐变 (body) —— 浅色 ---------- */
     --bg-start: #E8ECF8;
     --bg-mid: #D5DCE8;
     --bg-end: #C5CDDE;
 
-    /* 磨砂玻璃 —— 浅色半透 */
+    /* ---------- 磨砂玻璃 ---------- */
     --glass-bg: rgba(255, 255, 255, 0.45);
     --glass-bg-hover: rgba(255, 255, 255, 0.70);
     --glass-border: rgba(255, 255, 255, 0.50);
     --glass-border-hover: rgba(255, 255, 255, 0.80);
     --glass-shadow: rgba(0, 0, 0, 0.10);
+    --glass-blur: 24px;
 
-    /* 卡片 */
+    /* ---------- 卡片 ---------- */
     --card-bg: rgba(255, 255, 255, 0.35);
     --card-border: rgba(255, 255, 255, 0.40);
     --card-shadow: rgba(0, 0, 0, 0.08);
 
-    /* 文字 —— 深色 */
+    /* ---------- 文字 ---------- */
     --text-primary: #1A1A2E;
     --text-secondary: rgba(20, 20, 40, 0.80);
     --text-muted: rgba(20, 20, 40, 0.50);
     --text-inverse: #FFFFFF;
 
-    /* 侧边栏 */
+    /* ---------- 侧边栏 ---------- */
     --sidebar-bg: rgba(255, 255, 255, 0.25);
     --sidebar-border: rgba(255, 255, 255, 0.30);
     --sidebar-item-hover: rgba(255, 255, 255, 0.50);
     --sidebar-item-active: rgba(108, 99, 255, 0.15);
 
-    /* 顶部栏 */
+    /* ---------- 顶部栏 ---------- */
     --header-bg: rgba(255, 255, 255, 0.20);
     --header-border: rgba(255, 255, 255, 0.30);
 
-    /* 输入框 */
+    /* ---------- 输入框 ---------- */
     --input-bg: rgba(255, 255, 255, 0.50);
     --input-border: rgba(255, 255, 255, 0.60);
     --input-focus: rgba(108, 99, 255, 0.35);
     --input-text: #1A1A2E;
     --input-placeholder: rgba(20, 20, 40, 0.35);
 
-    /* 按钮 */
+    /* ---------- 按钮 ---------- */
     --btn-primary-bg: rgba(108, 99, 255, 0.20);
     --btn-primary-border: rgba(108, 99, 255, 0.30);
     --btn-primary-text: #1A1A2E;
@@ -141,27 +71,112 @@ body.light-mode {
     --btn-ghost-text: var(--text-secondary);
     --btn-ghost-hover: rgba(255, 255, 255, 0.50);
 
-    /* 表格 */
+    /* ---------- 表格 ---------- */
     --table-header-bg: rgba(255, 255, 255, 0.20);
     --table-row-hover: rgba(255, 255, 255, 0.30);
     --table-border: rgba(255, 255, 255, 0.25);
 
-    /* 滚动条 */
+    /* ---------- 滚动条 ---------- */
     --scrollbar-track: rgba(0, 0, 0, 0.05);
     --scrollbar-thumb: rgba(0, 0, 0, 0.15);
     --scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
 
-    /* 主色发光微调 (浅色下柔和) */
-    --primary-glow: rgba(108, 99, 255, 0.20);
+    /* ---------- 过渡 ---------- */
+    --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-    /* 状态色微调 (浅色下更鲜明) */
-    --success: #00B894;
-    --warning: #FDCB6E;
-    --danger: #E17055;
+    /* ---------- 旧变量兼容 (映射到新变量) ---------- */
+    --primary-color: var(--text-primary);
+    --bg-color: var(--bg-start);
+    --text-color: var(--text-primary);
+    --border-color: var(--card-border);
+    --accent-color: var(--accent);
+    --ccopy: var(--card-bg);
 }
 
 /* ============================================================
-   3. 全局重置 & 基础样式 (保留原布局类名)
+   2. 深色模式 —— 通过 body.dark-theme 切换
+   ============================================================ */
+body.dark-theme {
+    /* 背景渐变 —— 深色 */
+    --bg-start: #0B0A1A;
+    --bg-mid: #1A1640;
+    --bg-end: #2D1B4E;
+
+    /* 磨砂玻璃 */
+    --glass-bg: rgba(255, 255, 255, 0.07);
+    --glass-bg-hover: rgba(255, 255, 255, 0.14);
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --glass-border-hover: rgba(255, 255, 255, 0.20);
+    --glass-shadow: rgba(0, 0, 0, 0.40);
+
+    /* 卡片 */
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: rgba(0, 0, 0, 0.30);
+
+    /* 文字 */
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.78);
+    --text-muted: rgba(255, 255, 255, 0.40);
+    --text-inverse: #0B0A1A;
+
+    /* 侧边栏 */
+    --sidebar-bg: rgba(255, 255, 255, 0.05);
+    --sidebar-border: rgba(255, 255, 255, 0.06);
+    --sidebar-item-hover: rgba(255, 255, 255, 0.10);
+    --sidebar-item-active: rgba(108, 99, 255, 0.25);
+
+    /* 顶部栏 */
+    --header-bg: rgba(255, 255, 255, 0.04);
+    --header-border: rgba(255, 255, 255, 0.06);
+
+    /* 输入框 */
+    --input-bg: rgba(255, 255, 255, 0.07);
+    --input-border: rgba(255, 255, 255, 0.12);
+    --input-focus: rgba(108, 99, 255, 0.40);
+    --input-text: #FFFFFF;
+    --input-placeholder: rgba(255, 255, 255, 0.30);
+
+    /* 按钮 */
+    --btn-primary-bg: rgba(108, 99, 255, 0.25);
+    --btn-primary-border: rgba(108, 99, 255, 0.30);
+    --btn-primary-text: #FFFFFF;
+    --btn-primary-hover: rgba(108, 99, 255, 0.40);
+
+    --btn-ghost-bg: rgba(255, 255, 255, 0.06);
+    --btn-ghost-border: rgba(255, 255, 255, 0.10);
+    --btn-ghost-text: var(--text-secondary);
+    --btn-ghost-hover: rgba(255, 255, 255, 0.12);
+
+    /* 表格 */
+    --table-header-bg: rgba(255, 255, 255, 0.04);
+    --table-row-hover: rgba(255, 255, 255, 0.06);
+    --table-border: rgba(255, 255, 255, 0.06);
+
+    /* 滚动条 */
+    --scrollbar-track: rgba(255, 255, 255, 0.03);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+    --scrollbar-thumb-hover: rgba(255, 255, 255, 0.25);
+
+    /* 旧变量映射 (深色) */
+    --primary-color: var(--text-primary);
+    --bg-color: var(--bg-start);
+    --text-color: var(--text-primary);
+    --border-color: var(--card-border);
+    --accent-color: var(--accent);
+    --ccopy: var(--card-bg);
+
+    /* 主色发光 (深色更亮) */
+    --primary-glow: rgba(108, 99, 255, 0.35);
+
+    /* 状态色 (深色下亮一些) */
+    --success: #00D4AA;
+    --warning: #FFB800;
+    --danger: #FF6B6B;
+}
+
+/* ============================================================
+   3. 全局重置 & 基础样式
    ============================================================ */
 * {
     margin: 0;
@@ -212,14 +227,7 @@ p {
 }
 
 /* ============================================================
-   4. 原 .dark-theme → 映射到 .light-mode（反向兼容）
-   ============================================================ */
-body.dark-theme {
-    /* 深色即为默认 :root，无需额外覆盖 */
-}
-
-/* ============================================================
-   5. 原有类名样式 —— 仅修改配色，不改变布局
+   4. 原有类名样式 —— 仅修改配色，不改变布局
    ============================================================ */
 
 /* ---------- 文章底部 ---------- */
@@ -297,10 +305,6 @@ a:hover {
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--header-border);
     box-shadow: 0 4px 30px var(--glass-shadow);
-}
-
-body.light-mode .navbar.scrolled {
-    background: rgba(255, 255, 255, 0.75);
 }
 
 /* ---------- 文章详情内容 ---------- */
@@ -435,13 +439,6 @@ body.light-mode .navbar.scrolled {
 .search-bar:focus-within {
     border-color: var(--input-focus);
     box-shadow: 0 0 0 4px var(--primary-glow);
-}
-
-body.light-mode .search-bar {
-    background: rgba(255, 255, 255, 0.50);
-}
-body.light-mode .search-bar:focus-within {
-    background: rgba(255, 255, 255, 0.80);
 }
 
 .search-bar input {
@@ -607,10 +604,6 @@ body.light-mode .search-bar:focus-within {
     background: var(--glass-bg-hover);
 }
 
-.dark-theme .profile-card {
-    box-shadow: 0 4px 24px var(--card-shadow);
-}
-
 /* ---------- 个人资料头部 ---------- */
 .profile-header {
     text-align: center;
@@ -697,7 +690,7 @@ body.light-mode .search-bar:focus-within {
     font-weight: bold;
     margin-bottom: 10px;
     padding-bottom: 5px;
-    border-bottom: 1px solid var(--border-color, var(--card-border));
+    border-bottom: 1px solid var(--border-color);
     color: var(--text-primary);
 }
 
@@ -751,10 +744,6 @@ body.light-mode .search-bar:focus-within {
     border-color: var(--glass-border-hover);
     background: var(--glass-bg-hover);
     box-shadow: 0 12px 40px var(--glass-shadow);
-}
-
-.dark-theme .post-card {
-    box-shadow: 0 4px 24px var(--card-shadow);
 }
 
 .post-title {
@@ -1458,13 +1447,6 @@ img {
     transition: all 0.3s ease;
 }
 
-.dark-theme .toc-container {
-    background: rgba(40, 40, 40, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 .toc-header {
     display: flex;
     justify-content: space-between;
@@ -2151,7 +2133,7 @@ mark {
 }
 
 /* ============================================================
-   6. 响应式设计 (保留原断点)
+   5. 响应式设计 (保留原断点)
    ============================================================ */
 @media (max-width: 700px) {
     .navbar {
